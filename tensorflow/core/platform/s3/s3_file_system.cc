@@ -526,7 +526,9 @@ Status S3FileSystem::RenameFile(const string& src, const string& target) {
     }
   }
 
-  Aws::S3::S3Client s3Client(GetDefaultClientConfig());
+  Aws::Client::ClientConfiguration clientConfig = GetDefaultClientConfig();
+  clientConfig.requestTimeoutMs = 600000;
+  Aws::S3::S3Client s3Client(clientConfig);
 
   Aws::S3::Model::CopyObjectRequest copyObjectRequest;
   Aws::S3::Model::DeleteObjectRequest deleteObjectRequest;
